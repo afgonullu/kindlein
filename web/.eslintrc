@@ -1,0 +1,23 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["react", "@typescript-eslint"],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "react/prop-types": 0,
+    "@typescript-eslint/explicit-function-return-type": 0 // return type of basically all React components is JSX.Element or null, we have loosened the default linting rules up a bit by disabling the explicit-function-return-type rule
+  }
+}

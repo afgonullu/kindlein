@@ -1,0 +1,23 @@
+### web application. this is a react project created by create-react-app
+# dependencies
+/web/node_modules
+web/.pnp
+/.pnp.js
+
+# testing
+/web/coverage
+
+# production
+/web/build
+
+# misc
+/web/.DS_Store
+/web/.env
+/web/.env.local
+/web/.env.development.local
+/web/.env.test.local
+/web/.env.production.local
+
+/web/npm-debug.log*
+/web/yarn-debug.log*
+/web/yarn-error.log*
