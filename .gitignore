@@ -1,3 +1,5 @@
+/.vscode
+
 ### web application. this is a react project created by create-react-app
 # dependencies
 /web/node_modules
@@ -21,3 +23,27 @@ web/.pnp
 /web/npm-debug.log*
 /web/yarn-debug.log*
 /web/yarn-error.log*
+
+### api.
+# dependencies
+/api/node_modules
+api/.pnp
+/.pnp.js
+
+# testing
+/api/coverage
+
+# production
+/api/build
+
+# misc
+/api/.DS_Store
+/api/.env
+/api/.env.local
+/api/.env.development.local
+/api/.env.test.local
+/api/.env.production.local
+
+/api/npm-debug.log*
+/api/yarn-debug.log*
+/api/yarn-error.log*
