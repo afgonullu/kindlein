@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { MONGODB_URI } from "./utils/config"
 import express from "express"
 import { ApolloServer } from "apollo-server-express"
 import cors from "cors"
 import mongoose from "mongoose"
 
+import { MONGODB_URI } from "./utils/config"
 import middleware from "./utils/middleware"
-
-import { schema } from "./schema/schema"
+import { schema } from "./graphql/schema"
 
 mongoose
   .connect(MONGODB_URI!, {
