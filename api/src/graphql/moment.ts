@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { AuthenticationError, UserInputError } from "apollo-server-express"
 
+import { validateCreateMomentInput } from "../utils/validators/validateMomentInput"
 import { IMoment, Moment } from "../models/Moment"
 import { checkAuthorization } from "../utils/helpers"
 
@@ -65,9 +67,20 @@ export const momentDefs = `
     deleteComment(momentId: ID!, commentId: ID!): Moment!
     switchLikeMoment(momentId: ID!): Moment!
   }
+
+  extend type Subscription {
+    newMoment: Moment!
+    newComment: Moment!
+    newLike: Moment!
+  }
 `
 
 export const momentResolvers = {
+  Moment: {
+    likeCount: (root) => root.likes.length,
+    commentCount: (root) => root.comments.length,
+    tagCount: (root) => root.tags.length,
+  },
   Query: {
     getMoments: async (): Promise<IMoment[]> => {
       try {
@@ -97,6 +110,17 @@ export const momentResolvers = {
       const { title, body, momentDate, location, tags } = args.createMomentInput
       const token = checkAuthorization(context)
 
+      const { errors, valid } = validateCreateMomentInput(
+        title,
+        body,
+        momentDate,
+        location
+      )
+
+      if (!valid) {
+        throw new UserInputError("Errors occured", { errors })
+      }
+
       const updatedTags = tags.map((t) => {
         return {
           body: t,
@@ -117,6 +141,8 @@ export const momentResolvers = {
       })
 
       const returnedMoment = await moment.save()
+
+      context.pubsub.publish("NEW_MOMENT", { newMoment: returnedMoment })
 
       return returnedMoment
     }, //(createMomentInput: MomentInput!): Moment!
@@ -216,5 +242,11 @@ export const momentResolvers = {
         throw new UserInputError("Moment not found")
       }
     }, //(momentId: ID!): Moment!
+  },
+  Subscription: {
+    newMoment: {
+      subscribe: (_root, _args, context) =>
+        context.pubsub.asyncIterator("NEW_MOMENT"),
+    },
   },
 }
