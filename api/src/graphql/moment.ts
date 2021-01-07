@@ -190,5 +190,31 @@ export const momentResolvers = {
         throw new UserInputError("Moment not found")
       }
     }, //(momentId: ID!, commentId: ID!): Moment!
+    switchLikeMoment: async (_root, args, context) => {
+      const { momentId } = args
+
+      const token = checkAuthorization(context)
+
+      const moment = await Moment.findById(momentId)
+
+      if (moment) {
+        if (moment.likes.find((like) => like.username === token.username)) {
+          // moment already liked by the user, unlike it
+          moment.likes = moment.likes.filter(
+            (like) => like.username !== token.username
+          )
+        } else {
+          //not liked, like it
+          moment.likes.push({
+            username: token.username,
+            createdAt: new Date().toISOString(),
+          })
+        }
+        const returnedMoment = await moment.save()
+        return returnedMoment
+      } else {
+        throw new UserInputError("Moment not found")
+      }
+    }, //(momentId: ID!): Moment!
   },
 }
