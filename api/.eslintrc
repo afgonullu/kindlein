@@ -20,6 +20,6 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./api/tsconfig.json"
+    "project": "./tsconfig.json"
   }
 }
