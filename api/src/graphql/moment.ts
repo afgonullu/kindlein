@@ -75,6 +75,11 @@ export const momentDefs = `
 `
 
 export const momentResolvers = {
+  Moment: {
+    likeCount: (root) => root.likes.length,
+    commentCount: (root) => root.comments.length,
+    tagCount: (root) => root.tags.length,
+  },
   Query: {
     getMoments: async (): Promise<IMoment[]> => {
       try {
