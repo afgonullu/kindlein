@@ -5,6 +5,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { AuthenticationError, UserInputError } from "apollo-server-express"
 
+import { validateCreateMomentInput } from "../utils/validators/validateMomentInput"
 import { IMoment, Moment } from "../models/Moment"
 import { checkAuthorization } from "../utils/helpers"
 
@@ -108,6 +109,17 @@ export const momentResolvers = {
     createMoment: async (_root, args, context) => {
       const { title, body, momentDate, location, tags } = args.createMomentInput
       const token = checkAuthorization(context)
+
+      const { errors, valid } = validateCreateMomentInput(
+        title,
+        body,
+        momentDate,
+        location
+      )
+
+      if (!valid) {
+        throw new UserInputError("Errors occured", { errors })
+      }
 
       const updatedTags = tags.map((t) => {
         return {
