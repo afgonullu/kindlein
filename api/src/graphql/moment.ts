@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -65,6 +66,12 @@ export const momentDefs = `
     deleteComment(momentId: ID!, commentId: ID!): Moment!
     switchLikeMoment(momentId: ID!): Moment!
   }
+
+  extend type Subscription {
+    newMoment: Moment!
+    newComment: Moment!
+    newLike: Moment!
+  }
 `
 
 export const momentResolvers = {
@@ -117,6 +124,8 @@ export const momentResolvers = {
       })
 
       const returnedMoment = await moment.save()
+
+      context.pubsub.publish("NEW_MOMENT", { newMoment: returnedMoment })
 
       return returnedMoment
     }, //(createMomentInput: MomentInput!): Moment!
@@ -216,5 +225,11 @@ export const momentResolvers = {
         throw new UserInputError("Moment not found")
       }
     }, //(momentId: ID!): Moment!
+  },
+  Subscription: {
+    newMoment: {
+      subscribe: (_root, _args, context) =>
+        context.pubsub.asyncIterator("NEW_MOMENT"),
+    },
   },
 }
