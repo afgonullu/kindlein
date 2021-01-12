@@ -1,20 +1,23 @@
 import React from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
-import Header from "./layouts/Header/Header"
-import About from "./pages/About/About"
+import "./App.scss"
 import Home from "./pages/Home/Home"
+import Login from "./pages/Login/Login"
+import Register from "./pages/Register/Register"
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Header />
       <Switch>
-        <Route path="/about">
-          <About />
+        <Route path="/login">
+          <Login></Login>
+        </Route>
+        <Route path="/register">
+          <Register></Register>
         </Route>
         <Route path="/">
-          <Home />
+          <Home></Home>
         </Route>
       </Switch>
     </Router>

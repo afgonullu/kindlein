@@ -4,7 +4,8 @@
 # dependencies
 /web/node_modules
 web/.pnp
-/.pnp.js
+web/.pnp.js
+/web/.eslintcache
 
 # testing
 /web/coverage
@@ -28,7 +29,8 @@ web/.pnp
 # dependencies
 /api/node_modules
 api/.pnp
-/.pnp.js
+api/.pnp.js
+/web/.eslintcache
 
 # testing
 /api/coverage
