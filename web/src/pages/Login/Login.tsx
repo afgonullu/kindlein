@@ -1,15 +1,57 @@
-import React from "react"
-import { Col, Container, Row } from "react-bootstrap"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from "react"
+import { useHistory } from "react-router"
+import { Button, Container, Form } from "react-bootstrap"
+
+import { useLoginUser } from "../../graphql/hooks/users"
+import { useForm } from "../../graphql/hooks/useForm"
 
 const Login: React.FC = () => {
+  const history = useHistory()
+  const [errors, setErrors] = useState({ username: "", password: "" })
+  //TODO: Client Side Validation
+
+  const loginUser = useLoginUser(setErrors, history)
+
+  const { onChange, onSubmit, values } = useForm(loginUser, {
+    username: "",
+    password: "",
+  })
+
   return (
-    <Container>
-      <Row>
-        <Col>
-          <h1 className="display-2">Kindlein</h1>
-        </Col>
-        <Col></Col>
-      </Row>
+    <Container style={{ maxWidth: "330px", height: "100vh", display: "flex", alignItems: "center" }}>
+      <Form noValidate onSubmit={onSubmit}>
+        <Form.Group controlId="formBasicUsername">
+          <Form.Label>User Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter a Username"
+            name="username"
+            value={values.username}
+            onChange={onChange}
+            isInvalid={errors.username !== "" && !!errors.username}
+          />
+          <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={values.password}
+            onChange={onChange}
+            isInvalid={errors.password !== "" && !!errors.password}
+          />
+          <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group controlId="formBasicCheckbox">
+          <Form.Check type="checkbox" label="Check me out" />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Login
+        </Button>
+      </Form>
     </Container>
   )
 }
