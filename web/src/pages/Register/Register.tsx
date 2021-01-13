@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { useHistory } from "react-router"
 import { Button, Container, Form } from "react-bootstrap"
 
 import { useRegisterUser } from "../../graphql/hooks/users"
 import { useForm } from "../../graphql/hooks/useForm"
+import { AuthContext } from "../../context/auth"
 
 const Register: React.FC = () => {
+  const context = useContext(AuthContext)
   const history = useHistory()
   const [errors, setErrors] = useState({ username: "", email: "", password: "", confirmPassword: "" })
   //TODO: Client Side Validation
 
-  const registerUser = useRegisterUser(setErrors, history)
+  const registerUser = useRegisterUser(setErrors, history, context)
 
   const { onChange, onSubmit, values } = useForm(registerUser, {
     username: "",
