@@ -1,4 +1,4 @@
-export interface Moment {
+export interface IMoment {
   id: string
   title: string
   body: string
@@ -11,7 +11,11 @@ export interface Moment {
       body: string
     },
   ]
-  likes: string[]
+  likes: [
+    {
+      username: string
+    },
+  ]
   likeCount: number
   commentCount: number
   tagCount: number

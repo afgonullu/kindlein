@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client"
-import { Moment } from "../interfaces/moment"
+import { IMoment } from "../interfaces/moment"
 
 const GET_MOMENTS = gql`
   query {
@@ -30,7 +30,7 @@ const GET_MOMENTS = gql`
   }
 `
 
-export const useGetMoments = (): Moment[] => {
+export const useGetMoments = (): IMoment[] => {
   const { data } = useQuery(GET_MOMENTS)
 
   if (data) {
