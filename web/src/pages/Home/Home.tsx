@@ -3,6 +3,7 @@ import React from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { Route, Switch } from "react-router-dom"
 
+import MyRoute from "../../components/MyRoute/MyRoute"
 import Feed from "../../layouts/Feed/Feed"
 import NavBar from "../../layouts/NavBar/NavBar"
 import About from "../About/About"
@@ -16,12 +17,8 @@ const Home: React.FC = () => {
         </Col>
         <Col sm={11} lg={7} xl={6}>
           <Switch>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/">
-              <Feed />
-            </Route>
+            <MyRoute path="/about" component={About} />
+            <MyRoute path="/" component={Feed} />
           </Switch>
         </Col>
         <Col lg={4} xl={4} className="d-none d-lg-block">

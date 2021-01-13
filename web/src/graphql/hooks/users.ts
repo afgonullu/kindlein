@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { gql, useMutation } from "@apollo/client"
 import type { useHistory } from "react-router-dom"
+
+import { IUser } from "../interfaces/user"
 
 // REGISTER
 const REGISTER_USER = gql`
@@ -24,9 +27,11 @@ export const useRegisterUser = (
     React.SetStateAction<{ username: string; email: string; password: string; confirmPassword: string }>
   >,
   history: ReturnType<typeof useHistory>,
+  context: { user?: IUser | null; login: any; logout?: () => any },
 ) => {
   const [registerUser] = useMutation(REGISTER_USER, {
-    update: (_, _result) => {
+    update: (_, result) => {
+      context.login(result.data.register)
       history.push("/")
     },
     onError: (error) => {
@@ -54,9 +59,11 @@ const LOGIN_USER = gql`
 export const useLoginUser = (
   setErrors: React.Dispatch<React.SetStateAction<{ username: string; password: string }>>,
   history: ReturnType<typeof useHistory>,
+  context: { user?: IUser | null; login: any; logout?: () => any },
 ) => {
   const [loginUser] = useMutation(LOGIN_USER, {
-    update: (_, _result) => {
+    update: (_, result) => {
+      context.login(result.data.login)
       history.push("/")
     },
     onError: (error) => {

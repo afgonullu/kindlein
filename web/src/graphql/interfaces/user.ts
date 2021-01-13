@@ -4,4 +4,5 @@ export interface IUser {
   passwordHash: string
   email: string
   createdAt: string
+  token: string
 }
