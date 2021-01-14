@@ -17,15 +17,16 @@ const GET_MOMENTS = gql`
       createdAt
       location
       tags {
+        id
         body
       }
       comments {
         id
         body
         username
-        createdAt
       }
       likes {
+        id
         username
       }
       likeCount
@@ -102,3 +103,23 @@ export const useCreateMoment = () => {
 }
 
 // END OF CREATE MOMENT
+
+//LIKE & UNLIKE A MOMENT
+const SWITCH_LIKE_MOMENT = gql`
+  mutation switchLikeMoment($momentId: ID!) {
+    switchLikeMoment(momentId: $momentId) {
+      id
+      likes {
+        id
+        username
+      }
+      likeCount
+    }
+  }
+`
+
+export const useSwitchLikeMoment = () => {
+  const [switchLikeMoment] = useMutation(SWITCH_LIKE_MOMENT)
+
+  return switchLikeMoment
+}

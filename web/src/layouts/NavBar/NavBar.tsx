@@ -23,8 +23,8 @@ const NavBar: React.FC = () => {
         <NavLink to="/about">About</NavLink>
       </Nav>
       {context.user ? (
-        <Nav>
-          <p>Welcome back</p>
+        <Nav className="flex-column">
+          <p>Welcome back,</p>
           <p>{context.user.username}</p>
           <NavLink className="d-flex align-items-center" onClick={context.logout} to="/">
             <i className="bi bi-house d-flex align-items-center justify-content-center mr-2" />
