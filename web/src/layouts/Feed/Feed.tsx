@@ -6,8 +6,6 @@ import { useGetMoments } from "../../graphql/hooks/moments"
 const Feed: React.FC = () => {
   const moments = useGetMoments()
 
-  console.log(moments)
-
   return (
     <div>
       {moments.map((moment) => {

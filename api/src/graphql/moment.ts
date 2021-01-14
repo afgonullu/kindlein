@@ -85,7 +85,6 @@ export const momentResolvers = {
     getMoments: async (): Promise<IMoment[]> => {
       try {
         const moments = await Moment.find().sort({ createdAt: -1 })
-        console.log(moments)
         return moments
       } catch (error) {
         throw new Error(error)

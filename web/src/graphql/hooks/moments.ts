@@ -1,6 +1,11 @@
-import { gql, useQuery } from "@apollo/client"
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { gql, useMutation, useQuery } from "@apollo/client"
 import { IMoment } from "../interfaces/moment"
 
+// GET MOMENTS
 const GET_MOMENTS = gql`
   query {
     getMoments {
@@ -39,3 +44,61 @@ export const useGetMoments = (): IMoment[] => {
 
   return []
 }
+// END OF GET MOMENTS
+
+// CREATE MOMENT
+const CREATE_MOMENT = gql`
+  mutation createMoment($title: String!, $body: String!, $momentDate: String!, $location: String!) {
+    createMoment(
+      createMomentInput: { title: $title, body: $body, momentDate: $momentDate, location: $location, tags: [] }
+    ) {
+      id
+      title
+      body
+      momentDate
+      createdAt
+      location
+      tags {
+        body
+      }
+      username
+    }
+  }
+`
+// TODO: Error handling
+export const useCreateMoment = () => {
+  const [createMoment] = useMutation(CREATE_MOMENT, {
+    update: (cache, result) => {
+      cache.modify({
+        fields: {
+          getMoments(existingMoments = []) {
+            const newMomentRef = cache.writeFragment({
+              data: result.data.createMoment,
+              fragment: gql`
+                fragment NewMoment on Moment {
+                  id
+                  title
+                  body
+                  momentDate
+                  createdAt
+                  location
+                  tags {
+                    body
+                  }
+                  username
+                }
+              `,
+            })
+            return [...existingMoments, newMomentRef]
+          },
+        },
+      })
+    },
+    onError: (_error) => {
+      // setErrors(error.graphQLErrors[0]?.extensions?.exception.errors)
+    },
+  })
+  return createMoment
+}
+
+// END OF CREATE MOMENT
