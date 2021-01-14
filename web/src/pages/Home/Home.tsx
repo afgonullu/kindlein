@@ -1,10 +1,11 @@
 import React from "react"
 
 import { Col, Container, Row } from "react-bootstrap"
-import { Route, Switch } from "react-router-dom"
+import { Switch } from "react-router-dom"
 
 import MyRoute from "../../components/MyRoute/MyRoute"
 import Feed from "../../layouts/Feed/Feed"
+import MomentForm from "../../layouts/MomentForm/MomentForm"
 import NavBar from "../../layouts/NavBar/NavBar"
 import About from "../About/About"
 
@@ -22,7 +23,7 @@ const Home: React.FC = () => {
           </Switch>
         </Col>
         <Col lg={4} xl={4} className="d-none d-lg-block">
-          Sidebar
+          <MomentForm></MomentForm>
         </Col>
       </Row>
     </Container>

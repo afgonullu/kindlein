@@ -23,7 +23,7 @@ const Register: React.FC = () => {
   })
 
   return (
-    <Container style={{ maxWidth: "330px", height: "100vh", display: "flex", alignItems: "center" }}>
+    <Container style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <Form noValidate onSubmit={onSubmit}>
         <Form.Group controlId="formBasicUsername">
           <Form.Label>User Name</Form.Label>
