@@ -17,6 +17,7 @@ const MomentForm: React.FC = () => {
   })
 
   //TODO: Form styling, wording, labels and other stuff.
+  //TODO: transition. transition libraries
   //TODO: errors, error views
   return (
     <Container style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>

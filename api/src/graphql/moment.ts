@@ -61,7 +61,7 @@ export const momentDefs = `
 
   extend type Mutation {
     createMoment(createMomentInput: MomentInput!): Moment!
-    deleteMoment(momentId: ID!): String!
+    deleteMoment(momentId: ID!): Moment!
     updateMoment(momentId: ID!, updateMomentInput: MomentInput!): Moment!
     createComment(momentId: ID!, body:String!): Moment!
     deleteComment(momentId: ID!, commentId: ID!): Moment!
@@ -153,8 +153,8 @@ export const momentResolvers = {
       try {
         const moment = await Moment.findById(momentId)
         if (moment.username === token.username) {
-          await moment.delete()
-          return "Moment deleted :("
+          const returnedMoment = await moment.delete()
+          return returnedMoment
         } else {
           throw new AuthenticationError("Action not allowed")
         }
