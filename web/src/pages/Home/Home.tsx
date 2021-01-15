@@ -8,6 +8,7 @@ import Feed from "../../layouts/Feed/Feed"
 import MomentForm from "../../layouts/MomentForm/MomentForm"
 import NavBar from "../../layouts/NavBar/NavBar"
 import About from "../About/About"
+import SingleMoment from "../SingleMoment/SingleMoment"
 
 const Home: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Home: React.FC = () => {
         </Col>
         <Col sm={11} lg={7} xl={6}>
           <Switch>
+            <MyRoute path="/moments/:momentId" component={SingleMoment} />
             <MyRoute path="/about" component={About} />
             <MyRoute path="/" component={Feed} />
           </Switch>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 
 import { AuthContext } from "../../context/auth"
 import { IMoment } from "../../graphql/interfaces/moment"
+import DeleteButton from "../DeleteButton/DeleteButton"
 import LikeButton from "../LikeButton/LikeButton"
 
 const MomentCard: React.FC<{ moment: IMoment }> = ({ moment }) => {
@@ -33,11 +34,7 @@ const MomentCard: React.FC<{ moment: IMoment }> = ({ moment }) => {
           {moment.commentCount}
         </Link>
         <LikeButton user={context.user} moment={{ id: moment.id, likes: moment.likes, likeCount: moment.likeCount }} />
-        {context.user && context.user.username === moment.username ? (
-          <Link to={`/moments/${moment.id}`}>
-            <i className="bi bi-trash mr-2 text-danger" />
-          </Link>
-        ) : null}
+        {context.user && context.user.username === moment.username ? <DeleteButton momentId={moment.id} /> : null}
       </Card.Footer>
     </Card>
   )

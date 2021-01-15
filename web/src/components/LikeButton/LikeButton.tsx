@@ -20,6 +20,7 @@ const LikeButton: React.FC<{ user: any; moment: any }> = ({ user, moment }) => {
       setLiked(false)
     }
   }, [user, moment.likes])
+
   return (
     <span onClick={handleClick}>
       {liked ? <i className="bi bi-heart-fill mr-2" /> : <i className="bi bi-heart mr-2" />}
