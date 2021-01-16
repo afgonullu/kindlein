@@ -1,15 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
 
+import { useDeleteComment } from "../../graphql/hooks/comments"
 import { useDeleteMoment } from "../../graphql/hooks/moments"
 
-const DeleteButton: React.FC<{ momentId: string }> = ({ momentId }) => {
+const DeleteButton: React.FC<{ momentId: string; commentId: string | null }> = ({ momentId, commentId }) => {
   const deleteMoment = useDeleteMoment()
+  const deleteComment = useDeleteComment()
 
   //TODO: add confirmation modal
   const handleClick = () => {
-    console.log(momentId)
-    deleteMoment({ variables: { momentId } })
+    if (commentId) {
+      deleteComment({ variables: { commentId, momentId } })
+    } else {
+      deleteMoment({ variables: { momentId } })
+    }
   }
 
   return (

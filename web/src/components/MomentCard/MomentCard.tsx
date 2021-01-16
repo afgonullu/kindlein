@@ -34,7 +34,9 @@ const MomentCard: React.FC<{ moment: IMoment }> = ({ moment }) => {
           {moment.commentCount}
         </Link>
         <LikeButton user={context.user} moment={{ id: moment.id, likes: moment.likes, likeCount: moment.likeCount }} />
-        {context.user && context.user.username === moment.username ? <DeleteButton momentId={moment.id} /> : null}
+        {context.user && context.user.username === moment.username ? (
+          <DeleteButton momentId={moment.id} commentId={null} />
+        ) : null}
       </Card.Footer>
     </Card>
   )
