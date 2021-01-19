@@ -7,6 +7,7 @@ import MyRoute from "../../components/MyRoute/MyRoute"
 import Feed from "../../layouts/Feed/Feed"
 import NavBar from "../../layouts/NavBar/NavBar"
 import About from "../About/About"
+import Profile from "../Profile/Profile"
 import SingleMoment from "../SingleMoment/SingleMoment"
 
 const Home: React.FC = () => {
@@ -20,6 +21,7 @@ const Home: React.FC = () => {
           <Switch>
             <MyRoute path="/moments/:momentId" component={SingleMoment} />
             <MyRoute path="/about" component={About} />
+            <MyRoute path="/profile" component={Profile} />
             <MyRoute path="/" component={Feed} />
           </Switch>
         </Col>

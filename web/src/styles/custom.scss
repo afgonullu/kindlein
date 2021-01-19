@@ -104,6 +104,18 @@ body {
   padding-top: 0.5rem;
 }
 
+.kl-profile {
+  .kl-card {
+    box-shadow: none;
+    background: none;
+    cursor: auto;
+
+    &:hover {
+      background: none;
+    }
+  }
+}
+
 @media screen and (max-width: 578px) {
   .kl-navbar {
     flex-direction: row;
