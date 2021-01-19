@@ -30,6 +30,10 @@ export const userDefs = `
     email: String!
   }
 
+  extend type Query {
+    me(userId: ID!): User!
+  }
+
   extend type Mutation {
     register(registerInput: RegisterInput): User!
     login(username:String!, password:String!): User!
@@ -42,12 +46,28 @@ const generateToken = (user: IUser) => {
       id: user._id,
       email: user.email,
       username: user.username,
+      createdAt: user.createdAt,
     },
     SECRET!
   )
 }
 
 export const userResolvers = {
+  Query: {
+    me: async (_root, args) => {
+      const { userId } = args
+      try {
+        const user = await User.findById(userId)
+        if (user) {
+          return user
+        } else {
+          throw new Error("User not found")
+        }
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+  },
   Mutation: {
     register: async (_root, args) => {
       const { username, email, password, confirmPassword } = args.registerInput
