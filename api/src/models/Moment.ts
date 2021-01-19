@@ -4,6 +4,7 @@ export interface IMoment extends Document {
   title: string
   body: string
   username: string
+  childId: string
   momentDate: string
   createdAt: string
   location: string
@@ -35,6 +36,7 @@ const momentSchema = new Schema({
   title: String,
   body: String,
   username: String,
+  childId: String,
   momentDate: String,
   createdAt: String,
   location: String,
@@ -61,6 +63,10 @@ const momentSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
+  },
+  child: {
+    type: Schema.Types.ObjectId,
+    ref: "Child",
   },
 })
 

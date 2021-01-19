@@ -7,6 +7,7 @@ import { AuthenticationError, UserInputError } from "apollo-server-express"
 
 import { validateCreateMomentInput } from "../utils/validators/validateMomentInput"
 import { IMoment, Moment } from "../models/Moment"
+import { Child } from "../models/Child"
 import { checkAuthorization } from "../utils/helpers"
 
 export const momentDefs = `
@@ -35,6 +36,7 @@ export const momentDefs = `
     title: String!
     body: String!
     username: String!
+    childId: String!
     momentDate: String!
     createdAt: String!
     location: String!
@@ -49,6 +51,7 @@ export const momentDefs = `
   input MomentInput {
     title: String!
     body: String!
+    childId: String!
     momentDate: String!
     location: String!
     tags: [String]!
@@ -56,6 +59,7 @@ export const momentDefs = `
   
   extend type Query {
     getMoments: [Moment]
+    getMomentsByChild(childId: ID!): [Moment]
     getMoment(momentId: ID!): Moment
   }
 
@@ -90,6 +94,20 @@ export const momentResolvers = {
         throw new Error(error)
       }
     },
+    getMomentsByChild: async (_root, args): Promise<IMoment[]> => {
+      const { childId } = args
+      try {
+        const child = await Child.findById(childId)
+        console.log(child)
+
+        const moments = await Moment.find({ childId }).sort({
+          createdAt: -1,
+        })
+        return moments
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
     getMoment: async (_root: unknown, args: { momentId: string }) => {
       const { momentId } = args
       try {
@@ -106,8 +124,18 @@ export const momentResolvers = {
   },
   Mutation: {
     createMoment: async (_root, args, context) => {
-      const { title, body, momentDate, location, tags } = args.createMomentInput
+      console.log(args.createMomentInput)
+      const {
+        title,
+        body,
+        momentDate,
+        location,
+        childId,
+        tags,
+      } = args.createMomentInput
       const token = checkAuthorization(context)
+
+      console.log(token)
 
       const { errors, valid } = validateCreateMomentInput(
         title,
@@ -128,6 +156,12 @@ export const momentResolvers = {
         }
       })
 
+      const childInDb = await Child.findById(childId)
+
+      console.log(childInDb)
+
+      console.log(childId)
+
       const moment = new Moment({
         title,
         body,
@@ -135,6 +169,8 @@ export const momentResolvers = {
         createdAt: new Date().toISOString(),
         location,
         tags: updatedTags,
+        childId,
+        child: childInDb._id,
         username: token.username,
         user: token.id,
       })
