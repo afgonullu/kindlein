@@ -1,6 +1,254 @@
+$body-color: #2b2c28;
+
 $theme-colors: (
+  "primary": #439cfb,
+  "dark": #2b2c28,
   "info": tomato,
-  "danger": teal,
+  "danger": #f45b69,
 );
 
 @import "~bootstrap/scss/bootstrap";
+
+body {
+  background: linear-gradient(to top right, #e9b7ce, #d3f3f1);
+}
+
+.kl-home {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > .row {
+    background: #fff;
+    height: 90vh;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+    border-radius: 2rem;
+    z-index: 2;
+    backdrop-filter: blur(0.5rem);
+    border: 1px solid rgba(233, 183, 206, 0.1);
+
+    > div {
+      height: 100%;
+    }
+  }
+}
+
+.circle {
+  background: #fff;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
+  border-radius: 50%;
+  position: absolute;
+}
+
+.circle1 {
+  height: 25rem;
+  width: 25rem;
+  bottom: 1%;
+  left: 10%;
+}
+
+.circle2 {
+  height: 20rem;
+  width: 20rem;
+  top: 2%;
+  right: 15%;
+}
+.circle3 {
+  height: 15rem;
+  width: 15rem;
+  top: 18%;
+  left: 45%;
+}
+
+.kl-navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1.25rem;
+
+    a {
+      padding: 0.75rem 1rem;
+      border-radius: 2rem;
+      margin-bottom: 0.675rem;
+
+      &:hover {
+        background: rgba(67, 156, 251, 0.5);
+
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    .navbar-brand {
+      padding: 0;
+      margin: 0;
+      font-size: 1.563rem;
+    }
+  }
+}
+
+.kl-main {
+  padding-top: 0.5rem;
+}
+
+@media screen and (max-width: 578px) {
+  .kl-navbar {
+    flex-direction: row;
+
+    .navbar-nav {
+      flex-direction: row;
+
+      p {
+        display: none;
+      }
+    }
+  }
+}
+
+.kl-form-container {
+  padding: 0;
+}
+
+.kl-moments {
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.kl-moments::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.kl-moments {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.kl-card {
+  background: linear-gradient(to left top, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+  border: none;
+  border-radius: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  box-shadow: 3px 3px 0.5rem rgba(43, 44, 40, 0.1);
+  cursor: pointer;
+
+  .kl-card-header,
+  .kl-card-body,
+  .kl-card-footer {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .kl-card-body {
+    .kl-card-meta {
+      font-size: 0.75rem;
+    }
+  }
+
+  .kl-card-footer {
+    z-index: 9;
+    padding-top: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+
+    a {
+      display: flex;
+      align-items: center;
+      margin-right: 1.25rem;
+      color: #2b2c28;
+      text-decoration: none;
+
+      span {
+        padding-bottom: 0.1rem;
+      }
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+      }
+    }
+
+    .kl-card-comment {
+      &:hover {
+        color: #439cfb;
+      }
+      i:hover {
+        background: rgba(67, 156, 251, 0.1);
+        border-radius: 50%;
+      }
+    }
+
+    .kl-card-like {
+      &:hover {
+        color: #f45b69;
+      }
+      i:hover {
+        background: rgba(244, 91, 105, 0.1);
+        border-radius: 50%;
+      }
+    }
+  }
+
+  &.kl-form {
+    padding: 0.512rem;
+
+    .kl-form-button {
+      border-radius: 1rem;
+      width: 100%;
+    }
+
+    .kl-form-group {
+      margin-bottom: 0.512rem;
+
+      .kl-form-control {
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid #ced4da !important;
+        padding: 0 0.5rem;
+        background: none;
+      }
+
+      textarea {
+        height: 100px;
+        resize: none;
+      }
+    }
+  }
+}
+
+.kl-card:focus-within,
+.kl-card:hover {
+  background: linear-gradient(to bottom left, rgba(233, 183, 206, 0.1), rgba(211, 243, 241, 0.1));
+}
+
+.kl-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 1.25rem;
+}
+
+@media (min-width: 992px) {
+  .kl-main-side {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}

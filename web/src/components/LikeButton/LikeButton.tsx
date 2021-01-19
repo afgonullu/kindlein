@@ -22,10 +22,10 @@ const LikeButton: React.FC<{ user: any; moment: any }> = ({ user, moment }) => {
   }, [user, moment.likes])
 
   return (
-    <span onClick={handleClick}>
-      {liked ? <i className="bi bi-heart-fill mr-2" /> : <i className="bi bi-heart mr-2" />}
-      {moment.likeCount}
-    </span>
+    <a className="kl-card-like" onClick={handleClick}>
+      {liked ? <i className="bi bi-heart-fill" /> : <i className="bi bi-heart mr-2" />}
+      <span>{moment.likeCount}</span>
+    </a>
   )
 }
 

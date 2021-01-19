@@ -11,27 +11,26 @@ const MomentCard: React.FC<{ moment: IMoment }> = ({ moment }) => {
   const context = useContext(AuthContext)
 
   return (
-    <Card className="mb-2">
-      <Card.Header style={{ backgroundColor: "#fff", border: "none" }}>
+    <Card className="kl-card">
+      {/* <Card.Header className="kl-card-header">
         {moment.tags.map((tag) => (
           <span key={tag.body}>{tag.body}</span>
         ))}
-      </Card.Header>
-      <Card.Body>
-        <Card.Title>{moment.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">
-          <span>in {moment.location}</span> {}
-          <span>on {new Date(moment.momentDate).toJSON().substr(0, 10)}</span>
-        </Card.Subtitle>
-        <Card.Text>{moment.body}</Card.Text>
+      </Card.Header> */}
+      <Card.Body className="kl-card-body" onClick={() => (location.href = `/moments/${moment.id}`)}>
+        <Card.Title>
+          <span className="kl-card-title">{moment.title}</span>{" "}
+          <span className="kl-card-meta text-muted">
+            {moment.location}, on {new Date(moment.momentDate).toJSON().substr(0, 10)}
+          </span>
+        </Card.Title>
+        <Card.Subtitle></Card.Subtitle>
+        <Card.Text className="kl-card-text">{moment.body}</Card.Text>
       </Card.Body>
-      <Card.Footer
-        style={{ backgroundColor: "#fff", border: "none" }}
-        className="text-muted d-flex justify-content-around"
-      >
-        <Link to={`/moments/${moment.id}`}>
-          <i className="bi bi-chat mr-2" />
-          {moment.commentCount}
+      <Card.Footer className="kl-card-footer">
+        <Link className="kl-card-comment" to={`/moments/${moment.id}`}>
+          <i className="bi bi-chat" />
+          <span>{moment.commentCount}</span>
         </Link>
         <LikeButton user={context.user} moment={{ id: moment.id, likes: moment.likes, likeCount: moment.likeCount }} />
         {context.user && context.user.username === moment.username ? (

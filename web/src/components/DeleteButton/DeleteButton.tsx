@@ -18,9 +18,9 @@ const DeleteButton: React.FC<{ momentId: string; commentId: string | null }> = (
   }
 
   return (
-    <span onClick={handleClick}>
-      <i className="bi bi-trash mr-2" />
-    </span>
+    <a className="kl-card-delete" onClick={handleClick}>
+      <i className="bi bi-trash" />
+    </a>
   )
 }
 
