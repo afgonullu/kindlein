@@ -8,8 +8,8 @@ const NavBar: React.FC = () => {
   const context = useContext(AuthContext)
 
   return (
-    <Navbar className="d-flex flex-column justify-content-between align-items-start vh-100 position-fixed">
-      <Nav className="d-flex flex-column mr-auto">
+    <Navbar className="kl-navbar">
+      <Nav className="mr-auto">
         <Navbar.Brand>
           <NavLink className="d-flex align-items-center" to="/">
             <i className="bi bi-palette d-flex align-items-center justify-content-center mr-2" />
@@ -18,16 +18,23 @@ const NavBar: React.FC = () => {
         </Navbar.Brand>
         <NavLink className="d-flex align-items-center" to="/">
           <i className="bi bi-house d-flex align-items-center justify-content-center mr-2" />
-          <span className="d-none d-xl-inline-block">Home</span>
+          <span className="d-none d-xl-inline-block">Moments</span>
         </NavLink>
-        <NavLink to="/about">About</NavLink>
+        <NavLink className="d-flex align-items-center" to="/profile">
+          <i className="bi bi-file-person d-flex align-items-center justify-content-center mr-2" />
+          <span className="d-none d-xl-inline-block">Profile</span>
+        </NavLink>
+        <NavLink className="d-flex align-items-center" to="/settings">
+          <i className="bi bi-gear d-flex align-items-center justify-content-center mr-2" />
+          <span className="d-none d-xl-inline-block">Settings</span>
+        </NavLink>
       </Nav>
       {context.user ? (
-        <Nav className="flex-column">
-          <p>Welcome back,</p>
+        <Nav>
+          <p>Hello,</p>
           <p>{context.user.username}</p>
           <NavLink className="d-flex align-items-center" onClick={context.logout} to="/">
-            <i className="bi bi-house d-flex align-items-center justify-content-center mr-2" />
+            <i className="bi bi-box-arrow-right d-flex align-items-center justify-content-center mr-2" />
             <span className="d-none d-xl-inline-block">Logout</span>
           </NavLink>
         </Nav>
