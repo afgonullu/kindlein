@@ -22,6 +22,7 @@ const Home: React.FC = () => {
             <MyRoute path="/moments/:momentId" component={SingleMoment} />
             <MyRoute path="/about" component={About} />
             <MyRoute path="/profile" component={Profile} />
+            <MyRoute path="/childs/:childId" component={Feed} />
             <MyRoute path="/" component={Feed} />
           </Switch>
         </Col>

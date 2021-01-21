@@ -21,7 +21,7 @@ const MomentCard: React.FC<{ moment: IMoment }> = ({ moment }) => {
         <Card.Title>
           <span className="kl-card-title">{moment.title}</span>{" "}
           <span className="kl-card-meta text-muted">
-            {moment.location}, on {new Date(moment.momentDate).toJSON().substr(0, 10)}
+            @{moment.childName}, {moment.location}, on {new Date(moment.momentDate).toJSON().substr(0, 10)}
           </span>
         </Card.Title>
         <Card.Subtitle></Card.Subtitle>
@@ -34,7 +34,7 @@ const MomentCard: React.FC<{ moment: IMoment }> = ({ moment }) => {
         </Link>
         <LikeButton user={context.user} moment={{ id: moment.id, likes: moment.likes, likeCount: moment.likeCount }} />
         {context.user && context.user.username === moment.username ? (
-          <DeleteButton momentId={moment.id} commentId={null} />
+          <DeleteButton childId={null} momentId={moment.id} commentId={null} />
         ) : null}
       </Card.Footer>
     </Card>

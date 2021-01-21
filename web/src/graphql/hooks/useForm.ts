@@ -7,6 +7,7 @@ export const useForm = (callback: (arg0: { variables: any }) => void, initialSta
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault()
+    console.log(values)
     callback({ variables: values })
   }
 

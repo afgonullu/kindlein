@@ -69,7 +69,7 @@ const SingleMoment: React.FC<ExtendedProps> = (props) => {
                 <Card.Footer className="kl-card-fotter">
                   {comment.createdAt}
                   {context.user && context.user.username === comment.username ? (
-                    <DeleteButton momentId={moment.id} commentId={comment.id} />
+                    <DeleteButton childId={null} momentId={moment.id} commentId={comment.id} />
                   ) : null}
                 </Card.Footer>
               </Card>

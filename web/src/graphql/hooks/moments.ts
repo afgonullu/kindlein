@@ -7,12 +7,58 @@ import { IMoment } from "../interfaces/moment"
 
 // GET MOMENTS
 const GET_MOMENTS = gql`
-  query {
-    getMoments {
+  query getMoments($childId: ID) {
+    getMoments(childId: $childId) {
       id
       title
       body
       username
+      childName
+      momentDate
+      createdAt
+      location
+      tags {
+        id
+        body
+      }
+      comments {
+        id
+        body
+        username
+      }
+      likes {
+        id
+        username
+      }
+      likeCount
+      commentCount
+      tagCount
+      user
+      child
+    }
+  }
+`
+
+export const useGetMoments = (childId: string | null = null): IMoment[] => {
+  const { data } = useQuery(GET_MOMENTS, { variables: { childId } })
+
+  if (data) {
+    return data.getMoments
+  }
+
+  return []
+}
+// END OF GET MOMENTS
+
+// GET MOMENTS BY CHILD
+const GET_MOMENTS_BY_CHILD = gql`
+  query getMomentsByChild($childId: ID!) {
+    getMomentsByChild(childId: $childId) {
+      id
+      title
+      body
+      username
+      childName
       momentDate
       createdAt
       location
@@ -36,16 +82,16 @@ const GET_MOMENTS = gql`
   }
 `
 
-export const useGetMoments = (): IMoment[] => {
-  const { data } = useQuery(GET_MOMENTS)
+export const useGetMomentsByChild = (childId: string): IMoment[] => {
+  const { data } = useQuery(GET_MOMENTS_BY_CHILD, { variables: { childId } })
 
   if (data) {
-    return data.getMoments
+    return data.getMomentsByChild
   }
 
   return []
 }
-// END OF GET MOMENTS
+// END OF GET MOMENTS BY CHILD
 
 // GET SINGLE MOMENT
 const GET_SINGLE_MOMENT = gql`
@@ -55,6 +101,7 @@ const GET_SINGLE_MOMENT = gql`
       title
       body
       username
+      childName
       momentDate
       createdAt
       location
@@ -95,13 +142,21 @@ export const useGetSingleMoment = (momentId: string) => {
 
 // CREATE MOMENT
 const CREATE_MOMENT = gql`
-  mutation createMoment($title: String!, $body: String!, $momentDate: String!, $location: String!) {
+  mutation createMoment($title: String!, $body: String!, $childId: String!, $momentDate: String!, $location: String!) {
     createMoment(
-      createMomentInput: { title: $title, body: $body, momentDate: $momentDate, location: $location, tags: [] }
+      createMomentInput: {
+        title: $title
+        body: $body
+        childId: $childId
+        momentDate: $momentDate
+        location: $location
+        tags: []
+      }
     ) {
       id
       title
       body
+      childName
       momentDate
       createdAt
       location
@@ -109,6 +164,8 @@ const CREATE_MOMENT = gql`
         body
       }
       username
+      user
+      child
     }
   }
 `
@@ -126,6 +183,7 @@ export const useCreateMoment = () => {
                   id
                   title
                   body
+                  childName
                   momentDate
                   createdAt
                   location
@@ -133,10 +191,12 @@ export const useCreateMoment = () => {
                     body
                   }
                   username
+                  user
+                  child
                 }
               `,
             })
-            return [...existingMoments, newMomentRef]
+            return [newMomentRef, ...existingMoments]
           },
         },
       })

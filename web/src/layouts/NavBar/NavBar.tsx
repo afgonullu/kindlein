@@ -1,11 +1,16 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext } from "react"
 import { Nav, Navbar } from "react-bootstrap"
 import { NavLink } from "react-router-dom"
 
 import { AuthContext } from "../../context/auth"
+import { useGetChildsOfUser } from "../../graphql/hooks/childs"
 
 const NavBar: React.FC = () => {
   const context = useContext(AuthContext)
+
+  const childs = useGetChildsOfUser(context.user?.id!)
 
   return (
     <Navbar className="kl-navbar">
@@ -20,6 +25,14 @@ const NavBar: React.FC = () => {
           <i className="bi bi-house d-flex align-items-center justify-content-center mr-2" />
           <span className="d-none d-xl-inline-block">Moments</span>
         </NavLink>
+        {childs
+          ? childs.map((child) => (
+              <NavLink key={child.id} className="d-flex align-items-center" to={`/childs/${child.id}`}>
+                <i className="bi bi-house d-flex align-items-center justify-content-center mr-2" />
+                <span className="d-none d-xl-inline-block">{child.name}</span>
+              </NavLink>
+            ))
+          : null}
         <NavLink className="d-flex align-items-center" to="/profile">
           <i className="bi bi-file-person d-flex align-items-center justify-content-center mr-2" />
           <span className="d-none d-xl-inline-block">Profile</span>

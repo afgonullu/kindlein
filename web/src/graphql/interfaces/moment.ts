@@ -3,6 +3,7 @@ export interface IMoment {
   title: string
   body: string
   username: string
+  childName: string
   momentDate: string
   createdAt: string
   location: string
@@ -27,4 +28,6 @@ export interface IMoment {
       createdAt: string
     },
   ]
+  user: string
+  child: string
 }

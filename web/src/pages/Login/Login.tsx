@@ -14,6 +14,8 @@ const Login: React.FC = () => {
   const [errors, setErrors] = useState({ username: "", password: "" })
   //TODO: Client Side Validation
 
+  console.log(errors)
+
   const loginUser = useLoginUser(setErrors, history, context)
 
   const { onChange, onSubmit, values } = useForm(loginUser, {
@@ -41,9 +43,9 @@ const Login: React.FC = () => {
               name="username"
               value={values.username}
               onChange={onChange}
-              isInvalid={errors.username !== "" && !!errors.username}
+              // isInvalid={errors.username !== "" && !!errors.username}
             />
-            <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
+            {/* <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback> */}
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
@@ -53,9 +55,9 @@ const Login: React.FC = () => {
               name="password"
               value={values.password}
               onChange={onChange}
-              isInvalid={errors.password !== "" && !!errors.password}
+              // isInvalid={errors.password !== "" && !!errors.password}
             />
-            <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+            {/* <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback> */}
           </Form.Group>
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />

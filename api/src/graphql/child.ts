@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { UserInputError } from "apollo-server-express"
+import { AuthenticationError, UserInputError } from "apollo-server-express"
 
 import { validateCreateChildInput } from "../utils/validators/validateCreateChildInput"
 import { IChild, Child } from "../models/Child"
@@ -28,6 +28,7 @@ export const childDefs = `
   extend type Query {
     getChilds: [Child]
     getChild(childId: ID!): Child
+    getChildsOfUser(userId: ID!): [Child]
   }
 
   extend type Mutation {
@@ -47,19 +48,36 @@ export const childResolvers = {
         throw new Error(error)
       }
     },
-    //   getMoment: async (_root: unknown, args: { momentId: string }) => {
-    //     const { momentId } = args
-    //     try {
-    //       const moment = await Moment.findById(momentId)
-    //       if (moment) {
-    //         return moment
-    //       } else {
-    //         throw new Error("Moment not found")
-    //       }
-    //     } catch (error) {
-    //       throw new Error(error)
-    //     }
-    //   },
+    getChild: async (_root: unknown, args: { childId: string }) => {
+      const { childId } = args
+      try {
+        const child = await Child.findById(childId)
+        if (child) {
+          return child
+        } else {
+          throw new Error("Child not found")
+        }
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    getChildsOfUser: async (_root, args, context) => {
+      const { userId } = args // we could have get a userId from the token, but this info can be used in profile page. and authenticated user can be different than profile owner.
+      const token = checkAuthorization(context)
+
+      console.log(token.username)
+
+      try {
+        const childs = await Child.find({ user: userId })
+        if (childs) {
+          return childs
+        } else {
+          throw new Error("No children found")
+        }
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
   },
   Mutation: {
     createChild: async (_root, args, context) => {
@@ -84,23 +102,23 @@ export const childResolvers = {
       const returnedChild = await child.save()
 
       return returnedChild
-    }, //(createMomentInput: MomentInput!): Moment!
-    // deleteMoment: async (_root, args, context) => {
-    //   const { momentId } = args
+    },
+    deleteChild: async (_root, args, context) => {
+      const { childId } = args
 
-    //   const token = checkAuthorization(context)
+      const token = checkAuthorization(context)
 
-    //   try {
-    //     const moment = await Moment.findById(momentId)
-    //     if (moment.username === token.username) {
-    //       const returnedMoment = await moment.delete()
-    //       return returnedMoment
-    //     } else {
-    //       throw new AuthenticationError("Action not allowed")
-    //     }
-    //   } catch (error) {
-    //     throw new Error(error)
-    //   }
-    // }, //(momentId: ID!): String!
+      try {
+        const child = await Child.findById(childId)
+        if (child.username === token.username) {
+          const returnedChild = await child.delete()
+          return returnedChild
+        } else {
+          throw new AuthenticationError("Action not allowed")
+        }
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
   },
 }

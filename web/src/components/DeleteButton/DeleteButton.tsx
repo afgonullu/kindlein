@@ -3,14 +3,22 @@ import React from "react"
 
 import { useDeleteComment } from "../../graphql/hooks/comments"
 import { useDeleteMoment } from "../../graphql/hooks/moments"
+import { useDeleteChild } from "../../graphql/hooks/childs"
 
-const DeleteButton: React.FC<{ momentId: string; commentId: string | null }> = ({ momentId, commentId }) => {
+const DeleteButton: React.FC<{ childId: string | null; momentId: string | null; commentId: string | null }> = ({
+  childId,
+  momentId,
+  commentId,
+}) => {
   const deleteMoment = useDeleteMoment()
   const deleteComment = useDeleteComment()
+  const deleteChild = useDeleteChild()
 
   //TODO: add confirmation modal
   const handleClick = () => {
-    if (commentId) {
+    if (childId) {
+      deleteChild({ variables: { childId } })
+    } else if (commentId) {
       deleteComment({ variables: { commentId, momentId } })
     } else {
       deleteMoment({ variables: { momentId } })

@@ -1,17 +1,24 @@
-import React from "react"
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import React, { useContext } from "react"
 import { Button, Col, Container, Form, Row } from "react-bootstrap"
+import { AuthContext } from "../../context/auth"
+import { useGetChildsOfUser } from "../../graphql/hooks/childs"
 
 import { useCreateMoment } from "../../graphql/hooks/moments"
 import { useForm } from "../../graphql/hooks/useForm"
 
 const MomentForm: React.FC = () => {
+  const context = useContext(AuthContext)
   // const [errors, setErrors] = useState({ title: "", body: "", momentDate: "", location: "" })
 
   const createMoment = useCreateMoment()
+  const childs = useGetChildsOfUser(context.user?.id!)
 
   const { onChange, onSubmit, values } = useForm(createMoment, {
     title: "",
     body: "",
+    childId: "",
     momentDate: "",
     location: "",
   })
@@ -22,6 +29,24 @@ const MomentForm: React.FC = () => {
   return (
     <Container className="kl-form-container">
       <Form noValidate onSubmit={onSubmit} className="kl-card kl-form">
+        <Form.Group as={Row}>
+          <Form.Label as="legend" column sm={2}>
+            Children
+          </Form.Label>
+          <Col sm={10}>
+            {childs.map((child) => (
+              <Form.Check
+                key={child.id}
+                type="radio"
+                value={child.id}
+                onChange={onChange}
+                label={child.name}
+                name="childId"
+                id="formHorizontalRadios1"
+              />
+            ))}
+          </Col>
+        </Form.Group>
         <Form.Group controlId="formBasicTitle" className="kl-form-group">
           {/* <Form.Label>Moment Title</Form.Label> */}
           <Form.Control

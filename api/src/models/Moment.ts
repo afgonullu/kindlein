@@ -4,7 +4,7 @@ export interface IMoment extends Document {
   title: string
   body: string
   username: string
-  childId: string
+  childName: string
   momentDate: string
   createdAt: string
   location: string
@@ -29,6 +29,7 @@ export interface IMoment extends Document {
     }
   ]
   user: string
+  child: string
 }
 
 // validation will be handled in graphql layer
@@ -36,7 +37,7 @@ const momentSchema = new Schema({
   title: String,
   body: String,
   username: String,
-  childId: String,
+  childName: String,
   momentDate: String,
   createdAt: String,
   location: String,

@@ -36,7 +36,7 @@ export const momentDefs = `
     title: String!
     body: String!
     username: String!
-    childId: String!
+    childName: String!
     momentDate: String!
     createdAt: String!
     location: String!
@@ -46,6 +46,8 @@ export const momentDefs = `
     likeCount: Int!
     commentCount: Int!
     tagCount: Int!
+    user: String!
+    child: String!
   }
 
   input MomentInput {
@@ -58,8 +60,9 @@ export const momentDefs = `
   }
   
   extend type Query {
-    getMoments: [Moment]
+    getMoments(childId: ID): [Moment]
     getMomentsByChild(childId: ID!): [Moment]
+    getMomentsByUser: [Moment]
     getMoment(momentId: ID!): Moment
   }
 
@@ -86,9 +89,17 @@ export const momentResolvers = {
     tagCount: (root) => root.tags.length,
   },
   Query: {
-    getMoments: async (): Promise<IMoment[]> => {
+    getMoments: async (_root, args): Promise<IMoment[]> => {
+      const { childId } = args
       try {
-        const moments = await Moment.find().sort({ createdAt: -1 })
+        let moments: IMoment[] | PromiseLike<IMoment[]>
+        if (childId) {
+          moments = await Moment.find({ child: childId }).sort({
+            createdAt: -1,
+          })
+        } else {
+          moments = await Moment.find().sort({ createdAt: -1 })
+        }
         return moments
       } catch (error) {
         throw new Error(error)
@@ -101,6 +112,17 @@ export const momentResolvers = {
         console.log(child)
 
         const moments = await Moment.find({ childId }).sort({
+          createdAt: -1,
+        })
+        return moments
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    getMomentsByUser: async (_root, _args, context): Promise<IMoment[]> => {
+      const token = checkAuthorization(context)
+      try {
+        const moments = await Moment.find({ user: token.id }).sort({
           createdAt: -1,
         })
         return moments
@@ -169,7 +191,7 @@ export const momentResolvers = {
         createdAt: new Date().toISOString(),
         location,
         tags: updatedTags,
-        childId,
+        childName: childInDb.name,
         child: childInDb._id,
         username: token.username,
         user: token.id,
